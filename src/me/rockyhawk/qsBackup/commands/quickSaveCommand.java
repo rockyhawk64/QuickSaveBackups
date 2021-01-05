@@ -25,7 +25,7 @@ public class quickSaveCommand implements CommandExecutor {
             if(args[0].equalsIgnoreCase("reload")){
                 if (sender.hasPermission("quicksave.admin.reload")) {
                     plugin.config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + File.separator + "config.yml"));
-                    plugin.tag = plugin.config.getString("config.format.plugin.tag") + " ";
+                    plugin.tag = plugin.config.getString("config.format.tag") + " ";
                     sender.sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("config.format.reload")));
                 }else{
                     sender.sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("config.format.perms")));
