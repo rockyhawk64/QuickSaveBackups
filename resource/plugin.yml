@@ -1,0 +1,20 @@
+name: QuickSave
+main: me.rockyhawk.qsBackup.quickSaveMain
+author: RockyHawk
+version: 1.2.0
+api-version: '1.13'
+description: Easy Automatic World Backups. Light and Configurable.
+commands:
+   quicksave:
+      description: Open a command panel.
+      usage: /quicksave <args> [args]
+      aliases: [qs]
+permissions:
+   quicksave.admin.reload:
+      default: op
+   quicksave.admin.backup:
+      default: op
+   quicksave.help:
+      default: op
+   quicksave.version:
+      default: true

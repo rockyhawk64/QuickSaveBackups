@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Quick Save">
+    <output-path>$PROJECT_DIR$/out/artifacts/Quick_Save</output-path>
+    <root id="archive" name="Quick Save.jar">
+      <element id="module-output" name="Quick Save Backups" />
+    </root>
+  </artifact>
+</component>
