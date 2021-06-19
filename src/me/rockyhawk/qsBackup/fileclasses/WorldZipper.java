@@ -1,6 +1,7 @@
 package me.rockyhawk.qsBackup.fileclasses;
 
-import me.rockyhawk.qsBackup.quickSaveMain;
+import me.rockyhawk.qsBackup.QuickSave;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import java.io.*;
@@ -8,12 +9,12 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class WorldZipper {
-    quickSaveMain plugin;
-    public WorldZipper(quickSaveMain pl) { this.plugin = pl; }
+    QuickSave plugin;
+    public WorldZipper(QuickSave pl) { this.plugin = pl; }
 
     private boolean currentlyBackingUp = false;
 
-    public void zip(String worldName, File worldDirectory, String destZipFile){
+    public void zip(File worldDirectory, String destZipFile){
         //create new thread to backup world on this thread
         new Thread (new Runnable(){
             @Override
@@ -26,8 +27,8 @@ public class WorldZipper {
                     zos.close();
 
                     //delete old file
-                    plugin.getServer().getConsoleSender().sendMessage(plugin.colourize(plugin.tag + ChatColor.GREEN + "Finished backing up " + ChatColor.WHITE + worldName));
-                    plugin.oldBackup.deleteOldBackups();
+                    plugin.getServer().getConsoleSender().sendMessage(plugin.colourize(plugin.tag + ChatColor.GREEN + "Finished backing up " + ChatColor.WHITE + worldDirectory.getName()));
+                    plugin.oldBackup.checkWorldForOldBackups(new File(plugin.saveFolder.getAbsolutePath() + File.separator + worldDirectory.getName()));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

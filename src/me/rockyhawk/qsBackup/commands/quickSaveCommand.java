@@ -6,16 +6,16 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
-import me.rockyhawk.qsBackup.quickSaveMain;
+import me.rockyhawk.qsBackup.QuickSave;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class quickSaveCommand implements CommandExecutor {
-    quickSaveMain plugin;
+    QuickSave plugin;
 
-    public quickSaveCommand(quickSaveMain pl) {
+    public quickSaveCommand(QuickSave pl) {
         this.plugin = pl;
     }
 
@@ -26,6 +26,7 @@ public class quickSaveCommand implements CommandExecutor {
                 if (sender.hasPermission("quicksave.admin.reload")) {
                     plugin.config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + File.separator + "config.yml"));
                     plugin.tag = plugin.config.getString("config.format.tag") + " ";
+                    plugin.callRunnable();
                     sender.sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("config.format.reload")));
                 }else{
                     sender.sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("config.format.perms")));
@@ -34,8 +35,10 @@ public class quickSaveCommand implements CommandExecutor {
             }
             if(args[0].equalsIgnoreCase("version")){
                 if (sender.hasPermission("quicksave.version")) {
+                    plugin.updater.checkForNewUpdate(false);
                     sender.sendMessage(plugin.colourize(plugin.tag));
                     sender.sendMessage(ChatColor.GREEN + "Version " + ChatColor.GRAY + plugin.getDescription().getVersion());
+                    sender.sendMessage(ChatColor.GREEN + "Latest Version " + ChatColor.GRAY + plugin.updater.cachedLatestVersion);
                     sender.sendMessage(ChatColor.GREEN + "Developer " + ChatColor.GRAY + "RockyHawk");
                     sender.sendMessage(ChatColor.GREEN + "Command " + ChatColor.GRAY + "/qs");
                 }else{
@@ -84,7 +87,7 @@ public class quickSaveCommand implements CommandExecutor {
                 sender.sendMessage(ChatColor.GREEN + "/qs reload " + ChatColor.WHITE + "Reloads plugin config.");
             }
             if(sender.hasPermission("quicksave.admin.backup")){
-                sender.sendMessage(ChatColor.GREEN + "/qs backup " + ChatColor.WHITE + "Creates a new backup for worlds.");
+                sender.sendMessage(ChatColor.GREEN + "/qs backup [world] " + ChatColor.WHITE + "Creates a new backup for worlds.");
             }
             if(sender.hasPermission("quicksave.version")){
                 sender.sendMessage(ChatColor.GREEN + "/qs version " + ChatColor.WHITE + "Display the current version");

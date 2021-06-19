@@ -1,6 +1,6 @@
 package me.rockyhawk.qsBackup.completeTabs;
 
-import me.rockyhawk.qsBackup.quickSaveMain;
+import me.rockyhawk.qsBackup.QuickSave;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -11,8 +11,8 @@ import java.util.List;
 
 
 public class qsTabComplete implements TabCompleter {
-    quickSaveMain plugin;
-    public qsTabComplete(quickSaveMain pl) { this.plugin = pl; }
+    QuickSave plugin;
+    public qsTabComplete(QuickSave pl) { this.plugin = pl; }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         if(label.equalsIgnoreCase("qs") || label.equalsIgnoreCase("quicksave")) {
