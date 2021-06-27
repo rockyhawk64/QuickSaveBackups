@@ -33,6 +33,9 @@ public class QuickSave extends JavaPlugin {
     public void onEnable() {
         Bukkit.getLogger().info("[QuickSave] RockyHawk's QuickSave v" + this.getDescription().getVersion() + " Plugin Loading...");
 
+        //change version number to latest
+        updater.checkForNewUpdate(false);
+
         this.config = YamlConfiguration.loadConfiguration(new File(this.getDataFolder() + File.separator + "config.yml"));
         this.saveFolder = new File(this.getDataFolder() + File.separator + "backups");
 
