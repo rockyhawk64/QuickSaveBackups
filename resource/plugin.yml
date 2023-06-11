@@ -1,9 +1,9 @@
-version: 1.3.0.1
+version: 1.3.1.0
 name: QuickSave
 main: me.rockyhawk.qsBackup.QuickSave
 author: RockyHawk
 api-version: '1.13'
-description: Easy Automatic World Backups. Light and Configurable.
+description: Effortless World Backups. Lightweight and Adjustable.
 commands:
    quicksave:
       description: Open a command panel.

@@ -1,93 +1,64 @@
 package me.rockyhawk.qsBackup.fileclasses;
 
 import me.rockyhawk.qsBackup.QuickSave;
+import org.bukkit.ChatColor;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.function.Predicate;
 
 public class OldBackupRemoval {
     QuickSave plugin;
-    public OldBackupRemoval(QuickSave pl) { this.plugin = pl; }
 
-    public void checkForOldBackups(){
-        //delete old backups
-        try {
-            //list the files/worlds in the backup folder
-            File[] fList = plugin.saveFolder.listFiles();
-            if(fList != null){
-                //loop through the files/worlds in the backup folder
-                for (File ftemp : fList) {
-                    if (ftemp.isFile()) {
-                        //skip files in root Backup folder directory
-                    } else if (ftemp.isDirectory()) {
-                        checkWorldForOldBackups(ftemp);
-                    }
+    public OldBackupRemoval(QuickSave pl) {
+        this.plugin = pl;
+    }
+
+    private static final long BYTES_PER_MEGABYTE = 1048576L;
+
+    public void checkWorldForOldBackups(File directory) {
+        deleteFiles(directory, dir -> dir.listFiles() != null && dir.listFiles().length > plugin.config.getInt("amount.maximum_value"));
+        deleteFiles(directory, dir -> getFileFolderSize(dir) > plugin.config.getInt("folder_size.maximum_value") * BYTES_PER_MEGABYTE);
+    }
+
+    private void deleteFiles(File directory, Predicate<File> shouldDelete) {
+        while (shouldDelete.test(directory)) {
+            File oldestFile = getOldestFile(directory);
+            if (oldestFile != null) {
+                try {
+                    Files.delete(oldestFile.toPath());
+                } catch (java.nio.file.FileSystemException e) {
+                    plugin.getServer().getConsoleSender().sendMessage(plugin.colourize(
+                            plugin.tag + ChatColor.RED + "Could not delete file " + oldestFile.getName() + " because it's in use by another process."));
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
-        }catch(NullPointerException oof){
-            //directory probably doesn't exist for some reason
         }
     }
 
-    public void checkWorldForOldBackups(File directory){
-        deleteMaxAmount(directory);
-        deleteMaxStorage(directory);
-    }
 
-    private void deleteMaxAmount(File directory){
-        if(!plugin.config.getBoolean("amount.maximum_enabled")){
-            return;
-        }
-        long maximumAmount = plugin.config.getInt("amount.maximum_value");
-        //if the file in the backup folder is a directory
-        long amountInFolder = directory.listFiles().length;
-        //loop to find the oldest file, delete it and then check byte size parameters
-        while(amountInFolder > maximumAmount) {
-            long oldestDate = Long.MAX_VALUE;
-            File oldestFile = null;
-            for (File ftempFile : directory.listFiles()) {
-                if (ftempFile.lastModified() < oldestDate) {
-                    oldestDate = ftempFile.lastModified();
-                    oldestFile = ftempFile;
-                }
+    private File getOldestFile(File directory) {
+        long oldestDate = Long.MAX_VALUE;
+        File oldestFile = null;
+        for (File ftempFile : directory.listFiles()) {
+            if (ftempFile.lastModified() < oldestDate) {
+                oldestDate = ftempFile.lastModified();
+                oldestFile = ftempFile;
             }
-            if(oldestFile.delete()){/*do nothing*/}
-            amountInFolder = directory.listFiles().length;
         }
-    }
-
-    private void deleteMaxStorage(File directory){
-        if(!plugin.config.getBoolean("folder_size.maximum_enabled")){
-            return;
-        }
-        long maximumBytes = plugin.config.getInt("folder_size.maximum_value")*1048576L;
-        //if the file in the backup folder is a directory
-        long sizeofFolderBytes = getFileFolderSize(directory);
-        //loop to find the oldest file, delete it and then check byte size parameters
-        while(sizeofFolderBytes > maximumBytes) {
-            long oldestDate = Long.MAX_VALUE;
-            File oldestFile = null;
-            for (File ftempFile : directory.listFiles()) {
-                if (ftempFile.lastModified() < oldestDate) {
-                    oldestDate = ftempFile.lastModified();
-                    oldestFile = ftempFile;
-                }
-            }
-            if(oldestFile.delete()){/*do nothing*/}
-            sizeofFolderBytes = getFileFolderSize(directory);
-        }
+        return oldestFile;
     }
 
     private long getFileFolderSize(File dir) {
         long size = 0;
-        if (dir.isDirectory()) {
-            for (File file : dir.listFiles()) {
-                if (file.isFile()) {
-                    size += file.length();
-                } else
-                    size += getFileFolderSize(file);
+        for (File file : dir.listFiles()) {
+            if (file.isFile()) {
+                size += file.length();
+            } else {
+                size += getFileFolderSize(file);
             }
-        } else if (dir.isFile()) {
-            size += dir.length();
         }
         return size;
     }
