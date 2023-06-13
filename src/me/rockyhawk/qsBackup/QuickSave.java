@@ -41,6 +41,7 @@ public class QuickSave extends JavaPlugin {
 
         this.config.addDefault("config.version", 1.1);
         this.config.addDefault("config.autoBackup", true); //if auto backups are enabled
+        this.config.addDefault("config.asyncBackup", true); //if world backups are async
         this.config.addDefault("config.backupInterval", 360); //Measured in minutes, 360 is 6 hours
 
         this.config.addDefault("format.tag", "&3[&bQuickSave&3]");
@@ -113,12 +114,20 @@ public class QuickSave extends JavaPlugin {
                     autoBackupCounter+=1;
                 }
                 List<String> backupWorlds = new ArrayList();
-                backupWorlds.add(config.getStringList("config.worldsToBackup").get(autoBackupCounter));
+
+                // Check for asyncBackups config value
+                if(!config.getBoolean("config.asyncBackup")) { // If asyncBackups is false, add all worlds to backup list
+                    backupWorlds.addAll(config.getStringList("config.worldsToBackup"));
+                    getServer().getConsoleSender().sendMessage(colourize(tag + ChatColor.AQUA + "Backing up all worlds..."));
+                } else { // If asyncBackups is true, continue with the current behavior
+                    backupWorlds.add(config.getStringList("config.worldsToBackup").get(autoBackupCounter));
+                    getServer().getConsoleSender().sendMessage(colourize(tag + ChatColor.AQUA + "Backing up world " + ChatColor.WHITE + config.getStringList("config.worldsToBackup").get(autoBackupCounter) + "..."));
+                }
+
                 createNewBackup(backupWorlds);
-                getServer().getConsoleSender().sendMessage(colourize(tag + ChatColor.AQUA + "Backing up world " + ChatColor.WHITE + config.getStringList("config.worldsToBackup").get(autoBackupCounter) + "..."));
             }
         }.runTaskTimer(this,
-                intervalInTicks / config.getStringList("config.worldsToBackup").size(),
-                intervalInTicks / config.getStringList("config.worldsToBackup").size());
+                config.getBoolean("config.asyncBackup") ? intervalInTicks / config.getStringList("config.worldsToBackup").size() : intervalInTicks,
+                config.getBoolean("config.asyncBackup") ? intervalInTicks / config.getStringList("config.worldsToBackup").size() : intervalInTicks );
     }
 }
