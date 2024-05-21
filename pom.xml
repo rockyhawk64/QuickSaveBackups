@@ -41,7 +41,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>org.bstats</pattern>
-                                    <shadedPattern>me.rockyhawk.commandpanels.bstats</shadedPattern>
+                                    <shadedPattern>me.rockyhawk.quicksave.bstats</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
