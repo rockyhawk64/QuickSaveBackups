@@ -37,7 +37,6 @@ public class QuickSave extends JavaPlugin {
 
         this.getCommand("quicksave").setTabCompleter(new qsTabComplete(this));
         this.getCommand("quicksave").setExecutor(new quickSaveCommand(this));
-        new Metrics(this);
 
         this.config.addDefault("config.version", 1.1);
         this.config.addDefault("config.autoBackup", true); //if auto backups are enabled
@@ -89,7 +88,12 @@ public class QuickSave extends JavaPlugin {
         String strDate = new SimpleDateFormat("dd-MMM-yyyy HH-mm-ss").format(Calendar.getInstance().getTime());
         for (String worldName : backupWorlds) {
             new File(saveFolder.getAbsolutePath() + File.separator + worldName).mkdir();
-            zipper.zip(new File(rootServerFolder.getAbsolutePath() + File.separator + worldName), saveFolder.getAbsolutePath() + File.separator + worldName + File.separator + strDate + ".zip");
+            File worldToBackup = new File(rootServerFolder.getAbsolutePath() + File.separator + worldName);
+            if(!worldToBackup.exists()){
+                this.getServer().getConsoleSender().sendMessage(colourize(tag + config.getString("format.noWorld")));
+                continue;
+            }
+            zipper.zip(worldToBackup, saveFolder.getAbsolutePath() + File.separator + worldName + File.separator + strDate + ".zip");
         }
     }
 

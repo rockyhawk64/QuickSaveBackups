@@ -11,8 +11,6 @@ public class WorldZipper {
     QuickSave plugin;
     public WorldZipper(QuickSave pl) { this.plugin = pl; }
 
-    private boolean currentlyBackingUp = false;
-
     public void zip(File worldDirectory, String destZipFile){
         new Thread (() -> {
             try {
