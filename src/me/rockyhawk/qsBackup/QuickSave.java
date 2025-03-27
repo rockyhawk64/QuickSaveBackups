@@ -4,6 +4,7 @@ import me.rockyhawk.qsBackup.commands.quickSaveCommand;
 import me.rockyhawk.qsBackup.completeTabs.qsTabComplete;
 import me.rockyhawk.qsBackup.fileclasses.OldBackupRemoval;
 import me.rockyhawk.qsBackup.fileclasses.WorldZipper;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -40,7 +41,7 @@ public class QuickSave extends JavaPlugin {
 
         this.config.addDefault("config.version", 1.1);
         this.config.addDefault("config.autoBackup", true); //if auto backups are enabled
-        this.config.addDefault("config.asyncBackup", true); //if world backups are async
+        this.config.addDefault("config.asyncBackup", false); //if world backups are async
         this.config.addDefault("config.backupInterval", 360); //Measured in minutes, 360 is 6 hours
 
         this.config.addDefault("format.tag", "&3[&bQuickSave&3]");
@@ -56,6 +57,13 @@ public class QuickSave extends JavaPlugin {
         this.config.addDefault("amount.maximum_value", 40); //amount of backups allowed per world
 
         tag = config.getString("format.tag") + " ";
+
+        //bStats instance initialise
+        try {
+            new Metrics(this, 6727);
+        }catch(Exception e){
+            Bukkit.getLogger().info("[QuickSave] Could not start bStats instance, ignoring...");
+        }
 
         List<String> backupWorlds = new ArrayList();
         for(World temp : getServer().getWorlds()){
