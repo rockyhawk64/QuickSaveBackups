@@ -1,4 +1,4 @@
-version: 1.3.2
+version: 1.4.0
 name: QuickSave
 main: me.rockyhawk.qsBackup.QuickSave
 author: RockyHawk
@@ -13,6 +13,8 @@ permissions:
    quicksave.admin.reload:
       default: op
    quicksave.admin.backup:
+      default: op
+   quicksave.admin.status:
       default: op
    quicksave.help:
       default: op

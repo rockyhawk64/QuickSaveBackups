@@ -34,6 +34,9 @@ public class quickSaveCommand implements CommandExecutor {
             case "backup":
                 handleBackup(sender, args);
                 break;
+            case "status":
+                handleStatus(sender);
+                break;
             default:
                 sendHelpMessage(sender);
                 break;
@@ -77,6 +80,9 @@ public class quickSaveCommand implements CommandExecutor {
             if(!plugin.config.getStringList("config.worldsToBackup").contains(args[1])){
                 sender.sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("format.noWorld")));
                 return;
+            }else if(plugin.pluginStatus.contains(args[1])){
+                sender.sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("format.alreadyBackup") + ChatColor.WHITE + " " + args[1]));
+                return;
             }
             backupWorlds.add(args[1]);
         } else {
@@ -84,6 +90,27 @@ public class quickSaveCommand implements CommandExecutor {
         }
         sender.sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("format.saving")));
         plugin.createNewBackup(backupWorlds);
+    }
+
+    private void handleStatus(CommandSender sender) {
+        if (!sender.hasPermission("quicksave.admin.status")) {
+            sendNoPermissionMessage(sender);
+            return;
+        }
+
+        //Send tailored messages for no worlds being backed up, one world, and multiple worlds
+        if(plugin.pluginStatus.isEmpty()){
+            sender.sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("format.noStatus")));
+        } else if (plugin.pluginStatus.size() == 1) {
+            sender.sendMessage(plugin.colourize(plugin.tag +
+                    plugin.config.getString("format.status") +
+                    ChatColor.WHITE + " " + plugin.pluginStatus.stream().findFirst().orElse("null")));
+        }else{
+            sender.sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("format.status")));
+            for(String world : plugin.pluginStatus){
+                sender.sendMessage(ChatColor.WHITE + "- " + world);
+            }
+        }
     }
 
     private void sendHelpMessage(CommandSender sender){
@@ -100,6 +127,9 @@ public class quickSaveCommand implements CommandExecutor {
         if(sender.hasPermission("quicksave.admin.backup")){
             sender.sendMessage(ChatColor.GREEN + "/qs backup " + ChatColor.WHITE + "Creates a new backup for all worlds.");
             sender.sendMessage(ChatColor.GREEN + "/qs backup [world name] " + ChatColor.WHITE + "Creates a new backup for one world.");
+        }
+        if(sender.hasPermission("quicksave.admin.status")){
+            sender.sendMessage(ChatColor.GREEN + "/qs status " + ChatColor.WHITE + "Check if the plugin is currently backing up any worlds.");
         }
         if(sender.hasPermission("quicksave.version")){
             sender.sendMessage(ChatColor.GREEN + "/qs version " + ChatColor.WHITE + "Display the current version");

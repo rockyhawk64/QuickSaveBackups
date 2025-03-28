@@ -17,11 +17,13 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 
 public class QuickSave extends JavaPlugin {
     public YamlConfiguration config;
     public File saveFolder;
+    public HashSet<String> pluginStatus = new HashSet<>();
     private int autoBackupCounter = 0;
 
     public WorldZipper zipper = new WorldZipper(this);
@@ -39,7 +41,7 @@ public class QuickSave extends JavaPlugin {
         this.getCommand("quicksave").setTabCompleter(new qsTabComplete(this));
         this.getCommand("quicksave").setExecutor(new quickSaveCommand(this));
 
-        this.config.addDefault("config.version", 1.1);
+        this.config.addDefault("config.version", 1.2);
         this.config.addDefault("config.autoBackup", true); //if auto backups are enabled
         this.config.addDefault("config.asyncBackup", false); //if world backups are async
         this.config.addDefault("config.backupInterval", 360); //Measured in minutes, 360 is 6 hours
@@ -47,14 +49,20 @@ public class QuickSave extends JavaPlugin {
         this.config.addDefault("format.tag", "&3[&bQuickSave&3]");
         this.config.addDefault("format.perms", "&cNo permission.");
         this.config.addDefault("format.noWorld", "&cWorld not Found in Config.");
+        this.config.addDefault("format.alreadyBackup", "&cAlready backing up:");
+        this.config.addDefault("format.failedBackup", "&cFailed to back up:");
+        this.config.addDefault("format.finishedBackup", "&aFinished backing up:");
         this.config.addDefault("format.reload", "&aReloaded.");
         this.config.addDefault("format.saving", "&aStarting new backup.");
 
-        this.config.addDefault("folder_size.maximum_enabled", true); //if you want to set a maximum
+        this.config.addDefault("format.noStatus", "&aCurrently not backing up any worlds.");
+        this.config.addDefault("format.status", "&aCurrently backing up:");
+
+        this.config.addDefault("folder_size.maximum_enabled", false); //if you want to set a maximum
         this.config.addDefault("folder_size.maximum_value", 3000); //this is in megabytes, set to 5GB by default
 
         this.config.addDefault("amount.maximum_enabled", true); //if you want to set a maximum
-        this.config.addDefault("amount.maximum_value", 40); //amount of backups allowed per world
+        this.config.addDefault("amount.maximum_value", 10); //amount of backups allowed per world
 
         tag = config.getString("format.tag") + " ";
 
@@ -101,7 +109,9 @@ public class QuickSave extends JavaPlugin {
                 this.getServer().getConsoleSender().sendMessage(colourize(tag + config.getString("format.noWorld")));
                 continue;
             }
-            zipper.zip(worldToBackup, saveFolder.getAbsolutePath() + File.separator + worldName + File.separator + strDate + ".zip");
+            //Get world object from the world name
+            World world = Bukkit.getWorld(worldName);
+            zipper.zip(world, worldToBackup, saveFolder.getAbsolutePath() + File.separator + worldName + File.separator + strDate + ".zip");
         }
     }
 

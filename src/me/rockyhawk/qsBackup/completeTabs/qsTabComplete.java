@@ -20,6 +20,7 @@ public class qsTabComplete implements TabCompleter {
                 ArrayList<String> autoComplete = new ArrayList<>(); //all panels
                 autoComplete.add("help");
                 autoComplete.add("backup");
+                autoComplete.add("status");
                 autoComplete.add("reload");
                 autoComplete.add("version");
                 return autoComplete;

@@ -1,7 +1,11 @@
 package me.rockyhawk.qsBackup.fileclasses;
 
 import me.rockyhawk.qsBackup.QuickSave;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.*;
 import java.util.zip.ZipEntry;
@@ -11,20 +15,45 @@ public class WorldZipper {
     QuickSave plugin;
     public WorldZipper(QuickSave pl) { this.plugin = pl; }
 
-    public void zip(File worldDirectory, String destZipFile){
-        new Thread (() -> {
-            try {
-                try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(destZipFile))) {
-                    zipDirectory(worldDirectory, worldDirectory.getName(), zos);
+    public void zip(World world, File worldDirectory, String destZipFile) {
+        if(plugin.pluginStatus.contains(world.getName())){
+            plugin.getServer().getConsoleSender().sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("format.alreadyBackup") + ChatColor.WHITE + " " + worldDirectory.getName()));
+            return;
+        }
+
+        // Ensure saving and disabling autosaving happens in correct order
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                plugin.pluginStatus.add(world.getName());
+                world.setAutoSave(false); // Disable autosaving
+
+                world.save(); // Save the world
+                // Save player data manually to avoid inventory inconsistencies
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    player.saveData();
                 }
 
-                plugin.getServer().getConsoleSender().sendMessage(plugin.colourize(plugin.tag + ChatColor.GREEN + "Finished backing up " + ChatColor.WHITE + worldDirectory.getName()));
-                plugin.oldBackup.checkWorldForOldBackups(new File(plugin.saveFolder.getAbsolutePath() + File.separator + worldDirectory.getName()));
-            } catch (IOException e) {
-                e.printStackTrace();
-                plugin.getServer().getConsoleSender().sendMessage(plugin.colourize(plugin.tag + ChatColor.RED + "Failed to back up " + ChatColor.WHITE + worldDirectory.getName()));
+                // Start backup process in a separate thread
+                new Thread(() -> {
+                    try {
+                        try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(destZipFile))) {
+                            zipDirectory(worldDirectory, worldDirectory.getName(), zos);
+                        }
+
+                        plugin.getServer().getConsoleSender().sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("format.finishedBackup") + ChatColor.WHITE + " " + worldDirectory.getName()));
+                        plugin.oldBackup.checkWorldForOldBackups(new File(plugin.saveFolder.getAbsolutePath() + File.separator + worldDirectory.getName()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        plugin.getServer().getConsoleSender().sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("format.failedBackup") + ChatColor.WHITE + " " + worldDirectory.getName()));
+                    }
+
+                    // Re-enable autosaving once backup is finished
+                    Bukkit.getScheduler().runTask(plugin, () -> world.setAutoSave(true));
+                    plugin.pluginStatus.remove(world.getName());
+                }).start();
             }
-        }).start();
+        }.runTask(plugin); // Ensures world.save() and world.setAutoSave(false) run on the main thread
     }
 
     private void zipDirectory(File folder, String parentFolder, ZipOutputStream zos) {
