@@ -9,7 +9,7 @@ target/
 .env.*
 
 # IDE and editor directories
-.idea
+.idea/
 *.sublime-workspace
 
 # OS-specific files
