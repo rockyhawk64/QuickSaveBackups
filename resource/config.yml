@@ -1,0 +1,68 @@
+config:
+  # Config version: This defines the version of your configuration.
+  version: 1.3
+
+  # The worlds chosen to back up: These are the world folder names that will be backed up.
+  backupWorlds:
+    - world
+    - world_nether
+    - world_the_end
+
+  # The directory that backups are saved to.
+  # 'root' will save backups in the root of the server, 'plugin' will save backups to the plugins data folder.
+  backupLocation: plugin
+
+  # Auto-backup enabled or not: This sets whether the automatic backup feature is on or off.
+  autoBackup: true
+
+  # If true, each world is backed up individually at different times, determined by dividing the total worlds by the backup interval.
+  # This means if true, when restoring backups from different worlds at the same time, the backup time will not match.
+  # If false, all worlds will be backed up at the same time based on the backup interval.
+  asyncBackup: false
+
+  # Time in minutes between world backups: This sets the interval at which world backups are performed.
+  # 360 Minutes is 6 Hours
+  backupInterval: 360
+
+format:
+  #This is the tag that will be shown for the plugin.
+  tag: '&3[&bQuickSave&3]'
+
+  #This message is displayed when a player doesn't have the necessary permissions.
+  perms: '&cNo permission.'
+
+  #This message is displayed when a world isn't found in the configuration.
+  noWorld: '&cWorld not Found in Config.'
+
+  #Message sent when a backup for the requested world is already running.
+  alreadyBackup: '&cAlready backing up:'
+
+  #Message sent in the console when a backup fails.
+  failedBackup: '&cFailed to back up:'
+
+  #Message sent in the console when a backup is complete.
+  finishedBackup: '&aFinished backing up:'
+
+  #This is the message that will be shown when the plugin is reloaded.
+  reload: '&aReloaded.'
+
+  #Message sent when a backup is started.
+  saving: '&aStarting new backup.'
+
+  #Message sent when running the status command and no worlds are being backed up.
+  noStatus: '&aCurrently not backing up any worlds.'
+
+  #Message sent when running the status command and world/s are being backed up.
+  status: '&aCurrently backing up:'
+
+folder_size:
+  # The maximum folder size a world can be backed up in megabytes: This value is per world, not total.
+  # Set false to have no limit.
+  maximum_enabled: false
+  maximum_value: 3000
+
+amount:
+  # This sets the maximum number of backups a world can have: This value is per world, not total.
+  # Set false to have no limit.
+  maximum_enabled: true
+  maximum_value: 10

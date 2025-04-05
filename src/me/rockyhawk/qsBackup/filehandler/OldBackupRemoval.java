@@ -33,7 +33,7 @@ public class OldBackupRemoval {
                 try {
                     Files.delete(oldestFile.toPath());
                 } catch (java.nio.file.FileSystemException e) {
-                    plugin.getServer().getConsoleSender().sendMessage(plugin.colourize(
+                    plugin.getServer().getConsoleSender().sendMessage(plugin.colorize(
                             plugin.tag + ChatColor.RED + "Could not delete file " + oldestFile.getName() + " because it's in use by another process."));
                 } catch (IOException e) {
                     e.printStackTrace();

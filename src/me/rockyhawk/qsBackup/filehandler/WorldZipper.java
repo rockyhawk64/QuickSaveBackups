@@ -17,7 +17,7 @@ public class WorldZipper {
 
     public void zip(World world, File worldDirectory, String destZipFile) {
         if(plugin.pluginStatus.contains(world.getName())){
-            plugin.getServer().getConsoleSender().sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("format.alreadyBackup") + ChatColor.WHITE + " " + worldDirectory.getName()));
+            plugin.getServer().getConsoleSender().sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("format.alreadyBackup") + ChatColor.WHITE + " " + worldDirectory.getName()));
             return;
         }
 
@@ -41,11 +41,11 @@ public class WorldZipper {
                             zipDirectory(worldDirectory, worldDirectory.getName(), zos);
                         }
 
-                        plugin.getServer().getConsoleSender().sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("format.finishedBackup") + ChatColor.WHITE + " " + worldDirectory.getName()));
+                        plugin.getServer().getConsoleSender().sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("format.finishedBackup") + ChatColor.WHITE + " " + worldDirectory.getName()));
                         plugin.oldBackup.checkWorldForOldBackups(new File(plugin.saveFolder.getAbsolutePath() + File.separator + worldDirectory.getName()));
                     } catch (IOException e) {
                         e.printStackTrace();
-                        plugin.getServer().getConsoleSender().sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("format.failedBackup") + ChatColor.WHITE + " " + worldDirectory.getName()));
+                        plugin.getServer().getConsoleSender().sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("format.failedBackup") + ChatColor.WHITE + " " + worldDirectory.getName()));
                     }
 
                     // Re-enable autosaving once backup is finished

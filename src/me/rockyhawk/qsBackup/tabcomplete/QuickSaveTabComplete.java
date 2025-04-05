@@ -27,7 +27,7 @@ public class QuickSaveTabComplete implements TabCompleter {
             }
             if (sender instanceof Player && args.length == 2) {
                 if (args[0].equalsIgnoreCase("backup")) {
-                    return plugin.config.getStringList("config.worldsToBackup");
+                    return plugin.config.getStringList("config.backupWorlds");
                 }
             }
         }

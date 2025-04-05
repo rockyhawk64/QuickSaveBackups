@@ -1,2 +1,17 @@
 # Project exclude paths
-/out/
+target/
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.*
+
+# IDE and editor directories
+.idea/
+*.sublime-workspace
+
+# OS-specific files
+.DS_Store
+Thumbs.db

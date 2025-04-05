@@ -52,9 +52,13 @@ public class QuickSaveCommand implements CommandExecutor {
         }
 
         plugin.config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + File.separator + "config.yml"));
+
+        String backupPath = plugin.config.getString("config.backupLocation");
+        plugin.saveFolder = new File(backupPath.toLowerCase().contains("p") ? plugin.getDataFolder() : new File("."), "backups");
+
         plugin.tag = plugin.config.getString("format.tag") + " ";
-        plugin.callRunnable();
-        sender.sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("format.reload")));
+        plugin.backupHandler.callRunnable();
+        sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("format.reload")));
     }
 
     private void handleVersion(CommandSender sender) {
@@ -63,7 +67,7 @@ public class QuickSaveCommand implements CommandExecutor {
             return;
         }
 
-        sender.sendMessage(plugin.colourize(plugin.tag));
+        sender.sendMessage(plugin.colorize(plugin.tag));
         sender.sendMessage(ChatColor.GREEN + "Version " + ChatColor.GRAY + plugin.getDescription().getVersion());
         sender.sendMessage(ChatColor.GREEN + "Developer " + ChatColor.GRAY + "RockyHawk");
         sender.sendMessage(ChatColor.GREEN + "Command " + ChatColor.GRAY + "/qs");
@@ -77,19 +81,19 @@ public class QuickSaveCommand implements CommandExecutor {
 
         List<String> backupWorlds = new ArrayList<>();
         if(args.length > 1) {
-            if(!plugin.config.getStringList("config.worldsToBackup").contains(args[1])){
-                sender.sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("format.noWorld")));
+            if(!plugin.config.getStringList("config.backupWorlds").contains(args[1])){
+                sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("format.noWorld")));
                 return;
             }else if(plugin.pluginStatus.contains(args[1])){
-                sender.sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("format.alreadyBackup") + ChatColor.WHITE + " " + args[1]));
+                sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("format.alreadyBackup") + ChatColor.WHITE + " " + args[1]));
                 return;
             }
             backupWorlds.add(args[1]);
         } else {
-            backupWorlds.addAll(plugin.config.getStringList("config.worldsToBackup"));
+            backupWorlds.addAll(plugin.config.getStringList("config.backupWorlds"));
         }
-        sender.sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("format.saving")));
-        plugin.createNewBackup(backupWorlds);
+        sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("format.saving")));
+        plugin.backupHandler.createNewBackup(backupWorlds);
     }
 
     private void handleStatus(CommandSender sender) {
@@ -100,13 +104,13 @@ public class QuickSaveCommand implements CommandExecutor {
 
         //Send tailored messages for no worlds being backed up, one world, and multiple worlds
         if(plugin.pluginStatus.isEmpty()){
-            sender.sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("format.noStatus")));
+            sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("format.noStatus")));
         } else if (plugin.pluginStatus.size() == 1) {
-            sender.sendMessage(plugin.colourize(plugin.tag +
+            sender.sendMessage(plugin.colorize(plugin.tag +
                     plugin.config.getString("format.status") +
                     ChatColor.WHITE + " " + plugin.pluginStatus.stream().findFirst().orElse("null")));
         }else{
-            sender.sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("format.status")));
+            sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("format.status")));
             for(String world : plugin.pluginStatus){
                 sender.sendMessage(ChatColor.WHITE + "- " + world);
             }
@@ -119,7 +123,7 @@ public class QuickSaveCommand implements CommandExecutor {
             return;
         }
 
-        sender.sendMessage(plugin.colourize(plugin.tag + ChatColor.GREEN + "Commands:"));
+        sender.sendMessage(plugin.colorize(plugin.tag + ChatColor.GREEN + "Commands:"));
 
         if(sender.hasPermission("quicksave.admin.reload")){
             sender.sendMessage(ChatColor.GREEN + "/qs reload " + ChatColor.WHITE + "Reloads plugin config.");
@@ -137,6 +141,6 @@ public class QuickSaveCommand implements CommandExecutor {
     }
 
     private void sendNoPermissionMessage(CommandSender sender) {
-        sender.sendMessage(plugin.colourize(plugin.tag + plugin.config.getString("format.perms")));
+        sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("format.perms")));
     }
 }
