@@ -11,10 +11,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class quickSaveCommand implements CommandExecutor {
+public class QuickSaveCommand implements CommandExecutor {
     QuickSave plugin;
 
-    public quickSaveCommand(QuickSave pl) {
+    public QuickSaveCommand(QuickSave pl) {
         this.plugin = pl;
     }
 

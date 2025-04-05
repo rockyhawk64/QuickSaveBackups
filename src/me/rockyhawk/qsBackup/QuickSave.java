@@ -1,9 +1,9 @@
 package me.rockyhawk.qsBackup;
 
-import me.rockyhawk.qsBackup.commands.quickSaveCommand;
-import me.rockyhawk.qsBackup.completeTabs.qsTabComplete;
-import me.rockyhawk.qsBackup.fileclasses.OldBackupRemoval;
-import me.rockyhawk.qsBackup.fileclasses.WorldZipper;
+import me.rockyhawk.qsBackup.commands.QuickSaveCommand;
+import me.rockyhawk.qsBackup.tabcomplete.QuickSaveTabComplete;
+import me.rockyhawk.qsBackup.filehandler.OldBackupRemoval;
+import me.rockyhawk.qsBackup.filehandler.WorldZipper;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -38,8 +38,8 @@ public class QuickSave extends JavaPlugin {
         this.config = YamlConfiguration.loadConfiguration(new File(this.getDataFolder() + File.separator + "config.yml"));
         this.saveFolder = new File(this.getDataFolder() + File.separator + "backups");
 
-        this.getCommand("quicksave").setTabCompleter(new qsTabComplete(this));
-        this.getCommand("quicksave").setExecutor(new quickSaveCommand(this));
+        this.getCommand("quicksave").setTabCompleter(new QuickSaveTabComplete(this));
+        this.getCommand("quicksave").setExecutor(new QuickSaveCommand(this));
 
         this.config.addDefault("config.version", 1.2);
         this.config.addDefault("config.autoBackup", true); //if auto backups are enabled

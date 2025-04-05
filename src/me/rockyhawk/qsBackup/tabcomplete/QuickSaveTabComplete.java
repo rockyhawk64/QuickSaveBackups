@@ -1,4 +1,4 @@
-package me.rockyhawk.qsBackup.completeTabs;
+package me.rockyhawk.qsBackup.tabcomplete;
 
 import me.rockyhawk.qsBackup.QuickSave;
 import org.bukkit.command.Command;
@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class qsTabComplete implements TabCompleter {
+public class QuickSaveTabComplete implements TabCompleter {
     QuickSave plugin;
-    public qsTabComplete(QuickSave pl) { this.plugin = pl; }
+    public QuickSaveTabComplete(QuickSave pl) { this.plugin = pl; }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         if(label.equalsIgnoreCase("qs") || label.equalsIgnoreCase("quicksave")) {

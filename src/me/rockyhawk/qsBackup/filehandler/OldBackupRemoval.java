@@ -1,4 +1,4 @@
-package me.rockyhawk.qsBackup.fileclasses;
+package me.rockyhawk.qsBackup.filehandler;
 
 import me.rockyhawk.qsBackup.QuickSave;
 import org.bukkit.ChatColor;
