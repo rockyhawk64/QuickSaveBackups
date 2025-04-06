@@ -81,4 +81,8 @@ public class BackupHandler {
             autoBackup.cancel();
         }
     }
+
+    public boolean isRunning() {
+        return !autoBackup.isCancelled();
+    }
 }
