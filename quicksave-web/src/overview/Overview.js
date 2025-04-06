@@ -7,12 +7,18 @@ export default function Overview() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const apiUrl = `${window.location.protocol}//${window.location.host}/api`; // or just "/api" for the same domain
+        const apiUrl = `${window.location.protocol}//${window.location.host}/api`;
         const response = await fetch(apiUrl);
         const data = await response.json();
         setServerData(data);
       } catch (error) {
-        console.error("Error fetching server data:", error);
+        setServerData({
+            serverVersion: "",
+            backupsRunning: 0,
+            autoBackupStatus: false,
+            autoBackupAsync: false,
+            backupWorlds: [],
+        })
       }
     }
 

@@ -24,37 +24,15 @@ public class PluginServlet extends HttpServlet {
         response.addProperty("serverVersion", Bukkit.getVersion());
         response.addProperty("backupsRunning", plugin.pluginStatus.size());
         response.addProperty("autoBackupStatus", plugin.backupHandler.isRunning());
-        response.addProperty("autoBackupAsync", plugin.config.getBoolean("config.asyncBackup"));
+        response.addProperty("autoBackupAsync", plugin.config.getBoolean("asyncBackup"));
 
         // Get the list of worlds being backed up
         JsonArray backupWorldsJsonArray = new JsonArray();
-        for (String world : plugin.config.getStringList("config.backupWorlds")) {
+        for (String world : plugin.config.getStringList("backupWorlds")) {
             JsonElement worldJsonElement = new JsonPrimitive(world);
             backupWorldsJsonArray.add(worldJsonElement);  // Add each world to the JSON array
         }
         response.add("backupWorlds", backupWorldsJsonArray);
-
-        resp.setContentType("application/json");
-        resp.getWriter().println(response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        StringBuilder bodyBuilder = new StringBuilder();
-        BufferedReader reader = req.getReader();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            bodyBuilder.append(line);
-        }
-
-        //JsonObject json = JsonParser.parseString(bodyBuilder.toString()).getAsJsonObject();
-
-//        if (json.has("statusMessage")) {
-//            statusMessage = json.get("statusMessage").getAsString();
-//        }
-
-        JsonObject response = new JsonObject();
-        response.addProperty("status", "updated");
 
         resp.setContentType("application/json");
         resp.getWriter().println(response);

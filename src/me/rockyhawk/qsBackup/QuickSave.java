@@ -62,10 +62,10 @@ public class QuickSave extends JavaPlugin {
         }
 
         //Load backup folder location
-        String backupPath = config.getString("config.backupLocation");
+        String backupPath = config.getString("backupLocation");
         this.saveFolder = new File(backupPath.toLowerCase().contains("p") ? this.getDataFolder() : new File("."), "backups");
 
-        tag = config.getString("format.tag") + " ";
+        tag = config.getString("tag") + " ";
 
         //bStats instance initialise
         try {
@@ -81,7 +81,7 @@ public class QuickSave extends JavaPlugin {
         this.backupHandler.callRunnable();
 
         // Initialize Web Server
-        if(config.getBoolean("config.webInterface")) {
+        if(config.getBoolean("webInterface")) {
             this.webServer = new WebServer(this);
             webServer.start();
         }
@@ -91,6 +91,17 @@ public class QuickSave extends JavaPlugin {
         if (backupHandler != null) {
             backupHandler.cancelBackup();
         }
+    }
+
+    public void reloadPlugin(){
+        config = YamlConfiguration.loadConfiguration(new File(getDataFolder() + File.separator + "config.yml"));
+
+        String backupPath = config.getString("backupLocation");
+        saveFolder = new File(backupPath.toLowerCase().contains("p") ? getDataFolder() : new File("."), "backups");
+
+        tag = config.getString("tag") + " ";
+        backupHandler.callRunnable();
+        getServer().getConsoleSender().sendMessage(colorize(tag + config.getString("reload")));
     }
 
     public String colorize(String input) {

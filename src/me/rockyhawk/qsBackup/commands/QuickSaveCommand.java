@@ -4,10 +4,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import me.rockyhawk.qsBackup.QuickSave;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,14 +49,7 @@ public class QuickSaveCommand implements CommandExecutor {
             return;
         }
 
-        plugin.config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder() + File.separator + "config.yml"));
-
-        String backupPath = plugin.config.getString("config.backupLocation");
-        plugin.saveFolder = new File(backupPath.toLowerCase().contains("p") ? plugin.getDataFolder() : new File("."), "backups");
-
-        plugin.tag = plugin.config.getString("format.tag") + " ";
-        plugin.backupHandler.callRunnable();
-        sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("format.reload")));
+        plugin.reloadPlugin();
     }
 
     private void handleVersion(CommandSender sender) {
@@ -82,17 +73,17 @@ public class QuickSaveCommand implements CommandExecutor {
         List<String> backupWorlds = new ArrayList<>();
         if(args.length > 1) {
             if(!plugin.config.getStringList("config.backupWorlds").contains(args[1])){
-                sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("format.noWorld")));
+                sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("noWorld")));
                 return;
             }else if(plugin.pluginStatus.contains(args[1])){
-                sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("format.alreadyBackup") + ChatColor.WHITE + " " + args[1]));
+                sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("alreadyBackup") + ChatColor.WHITE + " " + args[1]));
                 return;
             }
             backupWorlds.add(args[1]);
         } else {
-            backupWorlds.addAll(plugin.config.getStringList("config.backupWorlds"));
+            backupWorlds.addAll(plugin.config.getStringList("backupWorlds"));
         }
-        sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("format.saving")));
+        sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("saving")));
         plugin.backupHandler.createNewBackup(backupWorlds);
     }
 
@@ -104,13 +95,13 @@ public class QuickSaveCommand implements CommandExecutor {
 
         //Send tailored messages for no worlds being backed up, one world, and multiple worlds
         if(plugin.pluginStatus.isEmpty()){
-            sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("format.noStatus")));
+            sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("noStatus")));
         } else if (plugin.pluginStatus.size() == 1) {
             sender.sendMessage(plugin.colorize(plugin.tag +
-                    plugin.config.getString("format.status") +
+                    plugin.config.getString("status") +
                     ChatColor.WHITE + " " + plugin.pluginStatus.stream().findFirst().orElse("null")));
         }else{
-            sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("format.status")));
+            sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("status")));
             for(String world : plugin.pluginStatus){
                 sender.sendMessage(ChatColor.WHITE + "- " + world);
             }

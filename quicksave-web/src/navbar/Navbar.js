@@ -1,22 +1,30 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 import QuickSaveLogo from "../images/QuickSaveColor.png"
 
-export default function Navbar() {
+export default function Navbar({ setCurrentPage, currentPage }) {
   return (
     <nav className="navbar">
       <img src={QuickSaveLogo} alt="QuickSave Logo" className="navbar-title" />
       <ul className="nav-links">
-        <NavLink to="/" end className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
+        <li
+          className={`nav-item ${currentPage === 'overview' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('overview')}
+        >
           Overview
-        </NavLink>
-        <NavLink to="/backupmanager" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
+        </li>
+        <li
+          className={`nav-item ${currentPage === 'backupmanager' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('backupmanager')}
+        >
           Backups
-        </NavLink>
-        <NavLink to="/configuration" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
+        </li>
+        <li
+          className={`nav-item ${currentPage === 'configuration' ? 'active' : ''}`}
+          onClick={() => setCurrentPage('configuration')}
+        >
           Configuration
-        </NavLink>
+        </li>
       </ul>
     </nav>
   );

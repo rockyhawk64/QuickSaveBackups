@@ -31,6 +31,7 @@
     text-decoration: none;
     font-size: 20px;
     border-radius: 8px;
+    cursor: pointer;
     transition: all 0.3s, color 0.3s;
   }
   

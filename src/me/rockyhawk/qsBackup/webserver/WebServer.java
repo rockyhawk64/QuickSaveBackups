@@ -27,6 +27,7 @@ public class WebServer {
             holder.setInitParameter("dirAllowed", "true");
             context.addServlet(holder, "/");
             context.addServlet(new ServletHolder(new PluginServlet(plugin)), "/api");
+            context.addServlet(new ServletHolder(new ConfigServlet(plugin)), "/api/config");
 
             server.setHandler(context);
             server.start();
