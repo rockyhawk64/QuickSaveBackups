@@ -4,6 +4,7 @@ import me.rockyhawk.qsBackup.commands.QuickSaveCommand;
 import me.rockyhawk.qsBackup.tabcomplete.QuickSaveTabComplete;
 import me.rockyhawk.qsBackup.filehandler.OldBackupRemoval;
 import me.rockyhawk.qsBackup.filehandler.WorldZipper;
+import me.rockyhawk.qsBackup.webserver.WebServer;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.CharSequenceReader;
 import org.bstats.bukkit.Metrics;
@@ -27,6 +28,7 @@ public class QuickSave extends JavaPlugin {
     public String tag;
 
     public BackupHandler backupHandler;
+    public WebServer webServer;
 
     public void onEnable() {
         Bukkit.getConsoleSender().sendMessage("[QuickSave] RockyHawk's QuickSave v" + this.getDescription().getVersion() + " Plugin Loading...");
@@ -68,14 +70,18 @@ public class QuickSave extends JavaPlugin {
         try {
             new Metrics(this, 6727);
         } catch (Exception e) {
-            Bukkit.getConsoleSender().sendMessage(colorize(tag) + ChatColor.YELLOW + "Could not start bStats instance, ignoring...");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "[QuickSave] Could not start bStats instance, ignoring...");
         }
 
-        Bukkit.getConsoleSender().sendMessage(colorize(tag) + ChatColor.WHITE + "RockyHawk's QuickSave v" + this.getDescription().getVersion() + " Plugin Loaded!");
+        Bukkit.getConsoleSender().sendMessage(ChatColor.WHITE + "[QuickSave] RockyHawk's QuickSave v" + this.getDescription().getVersion() + " Plugin Loaded!");
 
         // Initialize Backup and call the auto backup task
         this.backupHandler = new BackupHandler(this);
         this.backupHandler.callRunnable();
+
+        // Initialize Web Server
+        this.webServer = new WebServer(this);
+        webServer.start();
     }
 
     public void onDisable() {

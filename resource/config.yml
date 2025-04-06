@@ -26,7 +26,7 @@ config:
 
 format:
   #This is the tag that will be shown for the plugin.
-  tag: '&3[&bQuickSave&3]'
+  tag: '&6[&7QuickSave&6]'
 
   #This message is displayed when a player doesn't have the necessary permissions.
   perms: '&cNo permission.'
