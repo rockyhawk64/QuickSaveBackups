@@ -116,6 +116,24 @@ export default function ConfigManager() {
             </div>
 
             <div className="form-row">
+            <label className="tooltip" htmlFor="webInterface">Website Interface:
+                <span className="tooltiptext">
+                    The plugins Web Interface will not run if set to false.
+                    Server must be restarted to apply changes to this.
+                </span>
+            </label>
+            <div className="toggle-switch">
+                <input
+                    type="checkbox"
+                    id="webInterface"
+                    name="webInterface"
+                    checked={modifiedData.webInterface}
+                    onChange={handleChange}
+                />
+            </div>
+            </div>
+
+            <div className="form-row">
             <label className="tooltip" htmlFor="backupLocation">Auto Backup:
                 <span className="tooltiptext">
                     This sets whether the automatic backup feature is on or off.
