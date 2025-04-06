@@ -6,15 +6,6 @@ export default function Overview() {
 
   useEffect(() => {
     async function fetchData() {
-      const mockData = {
-        serverVersion: "1.16.5-R0.1-SNAPSHOT",
-        backupsRunning: 1,
-        autoBackupStatus: true,
-        autoBackupAsync: false,
-        worldList: ["world", "world_nether", "World3"],
-      };
-      setServerData(mockData);
-
       try {
         const apiUrl = `${window.location.protocol}//${window.location.host}/api`; // or just "/api" for the same domain
         const response = await fetch(apiUrl);
@@ -64,7 +55,7 @@ export default function Overview() {
         <div className="stat-container">
           <h3>Worlds Being Backed Up</h3>
           <ul className="world-list">
-            {serverData.worldList && serverData.worldList.map((world, index) => (
+            {serverData.backupWorlds && serverData.backupWorlds.map((world, index) => (
               <li key={index}>{world}</li>
             ))}
           </ul>

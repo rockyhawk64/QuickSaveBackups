@@ -15,6 +15,7 @@ public class BackupHandler {
     private final QuickSave plugin;
     private int autoBackupCounter = 0;
     private BukkitTask autoBackup;
+    private boolean isBackupRunning = false; // Flag to track if backup is running, isCancelled() is not in older mc versions
 
     public BackupHandler(QuickSave plugin) {
         this.plugin = plugin;
@@ -22,7 +23,7 @@ public class BackupHandler {
 
     public void callRunnable() {
         // cancel if not cancelled
-        if (autoBackup != null && !autoBackup.isCancelled()) {
+        if (autoBackup != null && isBackupRunning) {
             autoBackup.cancel();
         }
         // return if auto backup is disabled
@@ -55,6 +56,8 @@ public class BackupHandler {
         }.runTaskTimer(plugin,
                 plugin.config.getBoolean("config.asyncBackup") ? intervalInTicks / plugin.config.getStringList("config.backupWorlds").size() : intervalInTicks,
                 plugin.config.getBoolean("config.asyncBackup") ? intervalInTicks / plugin.config.getStringList("config.backupWorlds").size() : intervalInTicks);
+
+        isBackupRunning = true; // Set the flag to true when the backup task starts
     }
 
     public void createNewBackup(List<String> backupWorlds) {
@@ -77,12 +80,13 @@ public class BackupHandler {
     }
 
     public void cancelBackup() {
-        if (autoBackup != null && !autoBackup.isCancelled()) {
+        if (autoBackup != null && isBackupRunning) {
             autoBackup.cancel();
+            isBackupRunning = false; // Reset the flag when the task is cancelled
         }
     }
 
     public boolean isRunning() {
-        return !autoBackup.isCancelled();
+        return isBackupRunning;
     }
 }

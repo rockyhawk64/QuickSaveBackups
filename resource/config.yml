@@ -24,6 +24,9 @@ config:
   # 360 Minutes is 6 Hours
   backupInterval: 360
 
+  # The Web Interface will not start when the plugin is enabled if set to false.
+  webInterface: true
+
 format:
   #This is the tag that will be shown for the plugin.
   tag: '&6[&7QuickSave&6]'

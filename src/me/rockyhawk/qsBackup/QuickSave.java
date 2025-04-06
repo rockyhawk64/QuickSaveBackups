@@ -35,9 +35,6 @@ public class QuickSave extends JavaPlugin {
 
         this.config = YamlConfiguration.loadConfiguration(new File(this.getDataFolder() + File.separator + "config.yml"));
 
-        String backupPath = config.getString("config.backupLocation");
-        this.saveFolder = new File(backupPath.toLowerCase().contains("p") ? this.getDataFolder() : new File("."), "backups");
-
         this.getCommand("quicksave").setTabCompleter(new QuickSaveTabComplete(this));
         this.getCommand("quicksave").setExecutor(new QuickSaveCommand(this));
 
@@ -64,6 +61,10 @@ public class QuickSave extends JavaPlugin {
             }
         }
 
+        //Load backup folder location
+        String backupPath = config.getString("config.backupLocation");
+        this.saveFolder = new File(backupPath.toLowerCase().contains("p") ? this.getDataFolder() : new File("."), "backups");
+
         tag = config.getString("format.tag") + " ";
 
         //bStats instance initialise
@@ -80,8 +81,10 @@ public class QuickSave extends JavaPlugin {
         this.backupHandler.callRunnable();
 
         // Initialize Web Server
-        this.webServer = new WebServer(this);
-        webServer.start();
+        if(config.getBoolean("config.webInterface")) {
+            this.webServer = new WebServer(this);
+            webServer.start();
+        }
     }
 
     public void onDisable() {

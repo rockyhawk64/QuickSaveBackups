@@ -1,0 +1,171 @@
+/* Config Page Styling */
+.config {
+    margin-left: 250px;
+    padding: 20px 40px;
+    min-height: 100vh;
+    background-color: #1e1f22;
+    color: white;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .config-title {
+    font-size: 36px;  /* Larger title size */
+    color: #ffba44;
+    margin-bottom: 40px;
+    font-weight: bolder;
+    text-align: left;
+  }
+  
+  .config-section {
+    margin-bottom: 30px;
+  }
+
+  .config-section p{
+    margin-bottom: 5px;
+    font-size: 13px;
+    color: khaki;
+  }
+  
+  h3 {
+    font-size: 24px;  /* Adjust size of section titles */
+    color: #ffffff;
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
+  .form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+  }
+  
+  label {
+    display: block;
+    color: #ffba44;
+    width: 40%;
+    font-size: 20px;
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    background-color: #3a3d42;
+    color: white;
+    border: 1px solid #444;
+    padding: 10px;
+    border-radius: 8px;
+    width: 55%;
+  }
+  
+  textarea {
+    height: 120px;
+  }
+  
+  button.save-button {
+    background-color: #ffba44;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 250px;
+  }
+
+  button.save-button:hover {
+    background-color: khaki;
+  }
+  
+  button.save-button:disabled {
+    background-color: #b0b0b0;
+    cursor: not-allowed;
+  }
+
+/* Tooltip Styling */
+.tooltip {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 320px;
+    background-color: #3a3d42; /* Match background color */
+    color: #ffffff; /* Match text color */
+    text-align: center;
+    border-radius: 5px;
+    padding: 8px 12px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position the tooltip above the label */
+    left: 50%;
+    margin-left: -110px; /* Centers the tooltip */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    font-size: 18px; /* Similar to font size in other elements */
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #3a3d42 transparent transparent transparent; /* Match background color */
+  }  
+  
+  .toggle-switch {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.toggle-switch input[type="checkbox"] {
+    margin-left: 10px;
+    position: relative;
+}
+
+.toggle-switch input[type="checkbox"]:checked {
+    background-color: #4CAF50;
+}
+
+.toggle-switch input[type="checkbox"]:not(:checked) {
+    background-color: #ccc;
+}
+
+.toggle-switch input[type="checkbox"] {
+    width: 50px;
+    height: 25px;
+    border-radius: 50px;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-switch input[type="checkbox"]::before {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 18px;
+    height: 18px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.toggle-switch input[type="checkbox"]:checked::before {
+    transform: translateX(25px);
+}
