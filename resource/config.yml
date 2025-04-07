@@ -9,9 +9,27 @@ version: 1.3
 # 'root' will save backups in the root of the server, 'plugin' will save backups to the plugins data folder.
 backupLocation: plugin
 
-# The plugins Web Interface will not run if set to false.
+# The worlds chosen to back up: These are the world folder names that will be backed up.
+backupWorlds:
+  - world
+  - world_nether
+  - world_the_end
+
+#####################
+# Web Configuration #
+#####################
+
+# The plugins Web Interface will be enabled and accessible at "localhost:8080".
 # Server must be restarted to apply changes to this.
-webInterface: true
+webInterface: false
+
+# The port used for the Web Interface, requires restart to apply changes.
+# If you are already using 8080 it can be changed here.
+webPort: 8080
+
+###############
+# Auto Backup #
+###############
 
 # Auto-backup enabled or not: This sets whether the automatic backup feature is on or off.
 autoBackup: true
@@ -24,12 +42,6 @@ asyncBackup: false
 # Time in minutes between world backups: This sets the interval at which world backups are performed.
 # 360 Minutes is 6 Hours
 backupInterval: 360
-
-# The worlds chosen to back up: These are the world folder names that will be backed up.
-backupWorlds:
-  - world
-  - world_nether
-  - world_the_end
 
 ########################
 # Format Configuration #

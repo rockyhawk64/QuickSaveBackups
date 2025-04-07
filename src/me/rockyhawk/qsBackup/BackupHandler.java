@@ -25,6 +25,7 @@ public class BackupHandler {
         // cancel if not cancelled
         if (autoBackup != null && isBackupRunning) {
             autoBackup.cancel();
+            isBackupRunning = false;
         }
         // return if auto backup is disabled
         if (!plugin.config.getBoolean("autoBackup")) {

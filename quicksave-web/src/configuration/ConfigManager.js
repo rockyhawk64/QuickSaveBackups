@@ -116,6 +116,26 @@ export default function ConfigManager() {
             </div>
 
             <div className="form-row">
+                <label className="tooltip" htmlFor="backupWorlds">List of worlds to back up:
+                <span className="tooltiptext">
+                    These are the worlds that will be backed up. Worlds not included will not be touched by the plugin.
+                </span>
+            </label>
+            <textarea
+                name="backupWorlds"
+                value={modifiedData.backupWorlds?.join("\n") || ""}
+                onChange={(e) =>
+                    handleChange({
+                    target: { name: "backupWorlds", value: e.target.value.split("\n") },
+                    })
+                }
+            />
+            </div>
+        </div>
+
+        <div className="config-section">
+            <h3>Web Settings</h3>
+            <div className="form-row">
             <label className="tooltip" htmlFor="webInterface">Website Interface:
                 <span className="tooltiptext">
                     The plugins Web Interface will not run if set to false.
@@ -133,6 +153,26 @@ export default function ConfigManager() {
             </div>
             </div>
 
+            <div className="form-row">
+            <label className="tooltip" htmlFor="webPort">Website Port:
+                <span className="tooltiptext">
+                    The port used for the Web Interface, requires restart to apply changes.
+                    If you are already using 8080 it can be changed here.
+                </span>
+            </label>
+                <input
+                    type="number"
+                    id="webPort"
+                    name="webPort"
+                    value={modifiedData.webPort}
+                    onChange={handleChange}
+                    min="1"
+                />
+            </div>
+        </div>
+
+        <div className="config-section">
+            <h3>Auto Backup Settings</h3>
             <div className="form-row">
             <label className="tooltip" htmlFor="backupLocation">Auto Backup:
                 <span className="tooltiptext">
@@ -182,25 +222,6 @@ export default function ConfigManager() {
                 onChange={handleChange}
                 min="1"
             />
-            </div>
-
-            <h3>Worlds to Backup</h3>
-            <div className="form-row">
-                <label className="tooltip" htmlFor="backupLocation">List of worlds to back up:
-                <span className="tooltiptext">
-                    These are the worlds that will be backed up. Worlds not included will not be touched by the plugin.
-                </span>
-            </label>
-            <textarea
-                name="backupWorlds"
-                value={modifiedData.backupWorlds?.join("\n") || ""}
-                onChange={(e) =>
-                    handleChange({
-                    target: { name: "config.backupWorlds", value: e.target.value.split("\n") },
-                    })
-                }
-            />
-
             </div>
         </div>
 
@@ -391,7 +412,6 @@ export default function ConfigManager() {
                 value={modifiedData.sizeLimitMax}
                 onChange={handleChange}
                 min="1"
-                disabled={!modifiedData.sizeLimit}
             />
             </div>
         </div>
@@ -429,7 +449,6 @@ export default function ConfigManager() {
                 value={modifiedData.amountLimitMax}
                 onChange={handleChange}
                 min="1"
-                disabled={!modifiedData.amountLimit}
             />
             </div>
         </div>

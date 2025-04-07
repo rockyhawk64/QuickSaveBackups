@@ -1,7 +1,7 @@
 package me.rockyhawk.qsBackup;
 
 import me.rockyhawk.qsBackup.commands.QuickSaveCommand;
-import me.rockyhawk.qsBackup.tabcomplete.QuickSaveTabComplete;
+import me.rockyhawk.qsBackup.commands.QuickSaveTabComplete;
 import me.rockyhawk.qsBackup.filehandler.OldBackupRemoval;
 import me.rockyhawk.qsBackup.filehandler.WorldZipper;
 import me.rockyhawk.qsBackup.webserver.WebServer;

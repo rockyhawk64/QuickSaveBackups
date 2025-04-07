@@ -6,13 +6,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import me.rockyhawk.qsBackup.QuickSave;
 import org.bukkit.Bukkit;
-import org.eclipse.jetty.server.Server;
 
 import java.io.*;
 
 public class PluginServlet extends HttpServlet {
     private final QuickSave plugin;
-    private Server server;
 
     public PluginServlet(QuickSave plugin) {
         this.plugin = plugin;

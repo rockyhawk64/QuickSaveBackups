@@ -1,0 +1,138 @@
+/* Backup Manager Page Styling */
+.backup-manager {
+    margin-left: 250px;
+    padding: 20px 40px;
+    min-height: 100vh;
+    background-color: #1e1f22;
+    color: white;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  h3 {
+    font-size: 24px;
+    color: #ffffff;
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
+  .backup-manager-title {
+    font-size: 36px;
+    color: #ffba44;
+    margin-bottom: 40px;
+    font-weight: bolder;
+    text-align: left;
+  }
+  
+  .backup-button {
+    background-color: #4caf50;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .backup-button:hover {
+    background-color: #3f9342;
+  }
+  
+  .backup-button:disabled {
+    background-color: #b0b0b0;
+    cursor: not-allowed;
+  }
+  
+  .world-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+  
+  .world-tab {
+    background-color: #4a4f56;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .world-tab:hover {
+    background-color: khaki;
+    color: black;
+  }
+  
+  .world-tab.active {
+    background-color: #ffba44;
+    color: black;
+  }
+  
+  .world-details {
+    background-color: #2b2d31;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .backup-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .backup-action {
+    background-color: #ffba44;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .world-backup-button {
+    width: 250px;
+    margin: 5px 0px 5px 0px;
+  }
+  
+  .backup-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .backup-item {
+    background-color: #3a3d42;
+    padding: 12px 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .backup-item .file-name {
+    font-size: 22px;
+    font-weight: bolder;
+    color: #fff;
+    display: block; /* Ensure file name is on a separate line */
+  }
+  
+  .backup-item .file-size {
+    font-size: 18px;
+    color: #bbb;
+    display: block; /* Ensure file size is below the file name */
+    margin-top: 5px; /* Add space between file name and size */
+  }
