@@ -194,7 +194,7 @@ export default function ConfigManager() {
         <div className="config-section">
             <h3>Auto Backup Settings</h3>
             <div className="form-row">
-            <label className="tooltip" htmlFor="backupLocation">Auto Backup:
+            <label className="tooltip" htmlFor="autoBackup">Auto Backup:
                 <span className="tooltiptext">
                     This sets whether the automatic backup feature is on or off.
                 </span>
@@ -211,7 +211,7 @@ export default function ConfigManager() {
             </div>
 
             <div className="form-row">
-            <label className="tooltip" htmlFor="backupLocation">Async Backup:
+            <label className="tooltip" htmlFor="asyncBackup">Async Backup:
                 <span className="tooltiptext">
                     If true, worlds are backed up by the auto backup feature individually at staggered times, so their backup times may differ.
                     If false, all worlds are backed up simultaneously based on the backup interval.
@@ -229,7 +229,7 @@ export default function ConfigManager() {
             </div>
 
             <div className="form-row">
-            <label className="tooltip" htmlFor="backupLocation">Backup Interval (in minutes):
+            <label className="tooltip" htmlFor="backupInterval">Backup Interval (in minutes):
                 <span className="tooltiptext">
                     This sets the interval at which world backups are performed by the auto backup feature. (360 Mins is 6 Hours)
                 </span>
