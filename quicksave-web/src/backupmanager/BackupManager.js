@@ -11,7 +11,7 @@ export default function BackupManager() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const apiUrl = `${window.location.protocol}//${window.location.host}/api/backups`;
+        const apiUrl = `${window.location.protocol}//${window.location.host}/api/backup`;
         const response = await fetch(apiUrl);
         const data = await response.json();
 
@@ -39,11 +39,18 @@ export default function BackupManager() {
 
   const worldBackups = backupData.filter(backup => backup.world === selectedWorld);
 
-  const handleBackup = async () => {
+  const handleBackup = async (world = null) => {
     try {
-      const apiUrl = `${window.location.protocol}//${window.location.host}/api/backups`;
-      await fetch(`${apiUrl}/backup/${selectedWorld}`, { method: 'POST' });
-      alert("Backup started successfully!");
+      const apiUrl = `${window.location.protocol}//${window.location.host}/api/backup`;
+      const backupUrl = world ? `${apiUrl}/${world}` : apiUrl;
+      
+      const response = await fetch(backupUrl, { method: "POST" });
+  
+      if (response.ok) {
+        alert(world ? `Backup started for ${world}!` : "Full backup started!");
+      } else {
+        alert("Failed to start backup.");
+      }
     } catch (error) {
       alert("Failed to start backup.");
     }
@@ -105,7 +112,7 @@ export default function BackupManager() {
       ) : (
         <>
           <div className="world-tabs">
-            <button className="backup-button" onClick={handleBackup}>
+            <button className="backup-button" onClick={() => handleBackup()}>
                 Start Full Backup
             </button>
             {backupData.length === 0 ? (
@@ -125,7 +132,7 @@ export default function BackupManager() {
 
           {selectedWorld && (
             <div className="world-details">
-              <button className="backup-button world-backup-button" onClick={handleBackup}>
+              <button className="backup-button world-backup-button" onClick={() => handleBackup(selectedWorld)}>
                 Start World Backup
               </button>
               <h3>{selectedWorld.toUpperCase()} Backups</h3>

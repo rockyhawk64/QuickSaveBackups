@@ -7,7 +7,6 @@ import org.bukkit.command.CommandSender;
 import me.rockyhawk.qsBackup.QuickSave;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class QuickSaveCommand implements CommandExecutor {

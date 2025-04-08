@@ -10,6 +10,8 @@ import me.rockyhawk.qsBackup.QuickSave;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BackupServlet extends HttpServlet {
     private final QuickSave plugin;
@@ -68,6 +70,20 @@ public class BackupServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        // Handle POST requests if needed
+        List<String> backupWorlds = new ArrayList<>();
+
+        // Check if the request is for a full backup or world-specific backup
+        String path = req.getRequestURI();
+        if (path.equals("/api/backup")) {
+            // Full backup: Include all worlds from the config
+            backupWorlds.addAll(plugin.config.getStringList("backupWorlds"));
+        } else if (path.startsWith("/api/backup/")) {
+            // World-specific backup: Extract the world name from the URL
+            String world = path.substring(path.lastIndexOf("/") + 1);
+            backupWorlds.add(world);
+        }
+
+        // Proceed to back up the selected worlds
+        plugin.backupHandler.createNewBackup(backupWorlds);
     }
 }

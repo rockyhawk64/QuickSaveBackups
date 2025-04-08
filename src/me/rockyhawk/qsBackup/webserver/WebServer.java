@@ -35,7 +35,7 @@ public class WebServer {
             context.addServlet(holder, "/");
             context.addServlet(new ServletHolder(new PluginServlet(plugin)), "/api");
             context.addServlet(new ServletHolder(new ConfigServlet(plugin)), "/api/config");
-            context.addServlet(new ServletHolder(new BackupServlet(plugin)), "/api/backups");
+            context.addServlet(new ServletHolder(new BackupServlet(plugin)), "/api/backup/*");
 
             server.setHandler(context);
             server.start();
