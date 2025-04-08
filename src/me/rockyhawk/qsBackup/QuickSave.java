@@ -96,12 +96,34 @@ public class QuickSave extends JavaPlugin {
     public void reloadPlugin(){
         config = YamlConfiguration.loadConfiguration(new File(getDataFolder() + File.separator + "config.yml"));
 
-        String backupPath = config.getString("backupLocation");
-        saveFolder = new File(backupPath.toLowerCase().contains("p") ? getDataFolder() : new File("."), "backups");
+        updateSaveFolder();
 
         tag = config.getString("tag") + " ";
         backupHandler.callRunnable();
         getServer().getConsoleSender().sendMessage(colorize(tag + config.getString("reload")));
+    }
+
+    private void updateSaveFolder(){
+        String backupLocation = config.getString("backupLocation");
+        String backupPath = config.getString("backupPath");
+        switch (backupLocation.toLowerCase()) {
+            case "root":
+                saveFolder = new File("./backups");
+                break;
+            case "custom":
+                try {
+                    saveFolder = new File(backupPath, "backups").getCanonicalFile();
+                    if(!saveFolder.exists()){
+                        saveFolder.mkdirs();
+                    }
+                }catch (IOException e){
+                    saveFolder = new File(getDataFolder(), "backups");
+                    Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[QuickSave] Custom backup path could not be used.");
+                }
+                break;
+            default:
+                saveFolder = new File(getDataFolder(), "backups");
+        }
     }
 
     public String colorize(String input) {

@@ -13,7 +13,7 @@ export default function Overview() {
         setServerData(data);
       } catch (error) {
         setServerData({
-            serverVersion: "",
+            serverVersion: "Not Connected",
             backupsRunning: 0,
             autoBackupStatus: false,
             autoBackupAsync: false,

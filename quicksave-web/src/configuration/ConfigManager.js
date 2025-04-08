@@ -101,7 +101,9 @@ export default function ConfigManager() {
             <div className="form-row">
             <label className="tooltip" htmlFor="backupLocation">Backup Location:
                 <span className="tooltiptext">
-                    'Root' will save backups in the root of the server, 'Plugin' will save backups to the plugins data folder.
+                    The directory that backups are saved to.
+                    'root' will save backups in the root of the server, 'plugin' will save backups to the plugins data folder.
+                    'custom' will use the backupPath file path provided below and place the backups folder inside.
                 </span>
             </label>
             <select
@@ -112,7 +114,25 @@ export default function ConfigManager() {
             >
                 <option value="root">Root</option>
                 <option value="plugin">Plugin</option>
+                <option value="custom">Custom</option>
             </select>
+            </div>
+
+            <div className="form-row">
+            <label className="tooltip" htmlFor="backupPath">Backup Path:
+                <span className="tooltiptext">
+                    If backup location is 'custom', choose the absolute path here.
+                    Windows folder example: C:\Users\YourUsername\Documents.
+                    Linux and macOS folder example: /Users/YourUsername/Documents.
+                </span>
+            </label>
+            <input
+                    type="text"
+                    id="backupPath"
+                    name="backupPath"
+                    checked={modifiedData.backupPath}
+                    onChange={handleChange}
+                />
             </div>
 
             <div className="form-row">
