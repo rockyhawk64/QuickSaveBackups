@@ -10,7 +10,7 @@
 
 ![](https://i.imgur.com/X1sCCEL.png)
 ## **Plugin Support**
-**Get support on the [Discord](https://discord.gg/euwbwh7) server**
+**Get support on the [Discord](https://discord.gg/WFQMTZxa53) server**
 
 ## **Features**
 
