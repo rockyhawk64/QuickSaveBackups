@@ -24,6 +24,7 @@ public class WebServer {
         context.setContextPath("/");
 
         //Bind server to localhost only
+        //Using 127.0.0.1 restricts access to only the device it is running on
         ServerConnector connector = new ServerConnector(server);
         connector.setHost("127.0.0.1");
         connector.setPort(plugin.config.getInt("webPort"));
