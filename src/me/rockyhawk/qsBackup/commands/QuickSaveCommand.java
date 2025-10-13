@@ -132,6 +132,6 @@ public class QuickSaveCommand implements CommandExecutor {
     }
 
     private void sendNoPermissionMessage(CommandSender sender) {
-        sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("format.perms")));
+        sender.sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("perms")));
     }
 }
