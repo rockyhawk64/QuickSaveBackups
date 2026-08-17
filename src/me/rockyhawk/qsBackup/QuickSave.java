@@ -4,7 +4,6 @@ import me.rockyhawk.qsBackup.commands.QuickSaveCommand;
 import me.rockyhawk.qsBackup.commands.QuickSaveTabComplete;
 import me.rockyhawk.qsBackup.filehandler.OldBackupRemoval;
 import me.rockyhawk.qsBackup.filehandler.WorldZipper;
-import me.rockyhawk.qsBackup.webserver.WebServer;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.CharSequenceReader;
 import org.bstats.bukkit.Metrics;
@@ -28,7 +27,6 @@ public class QuickSave extends JavaPlugin {
     public String tag;
 
     public BackupHandler backupHandler;
-    public WebServer webServer;
 
     public void onEnable() {
         Bukkit.getConsoleSender().sendMessage("[QuickSave] RockyHawk's QuickSave v" + this.getDescription().getVersion() + " Plugin Loading...");
@@ -62,7 +60,7 @@ public class QuickSave extends JavaPlugin {
         }
 
         //Load backup folder location
-        String backupPath = config.getString("backupLocation");
+        String backupPath = config.getString("backup_location");
         this.saveFolder = new File(backupPath.toLowerCase().contains("p") ? this.getDataFolder() : new File("."), "backups");
 
         tag = config.getString("tag") + " ";
@@ -79,12 +77,6 @@ public class QuickSave extends JavaPlugin {
         // Initialize Backup and call the auto backup task
         this.backupHandler = new BackupHandler(this);
         this.backupHandler.callRunnable();
-
-        // Initialize Web Server
-        if(config.getBoolean("webInterface")) {
-            this.webServer = new WebServer(this);
-            webServer.start();
-        }
     }
 
     public void onDisable() {
@@ -104,8 +96,8 @@ public class QuickSave extends JavaPlugin {
     }
 
     private void updateSaveFolder(){
-        String backupLocation = config.getString("backupLocation");
-        String backupPath = config.getString("backupPath");
+        String backupLocation = config.getString("backup_location");
+        String backupPath = config.getString("backup_path");
         switch (backupLocation.toLowerCase()) {
             case "root":
                 saveFolder = new File("./backups");

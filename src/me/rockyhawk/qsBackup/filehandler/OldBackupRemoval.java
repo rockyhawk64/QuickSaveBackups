@@ -18,11 +18,11 @@ public class OldBackupRemoval {
     private static final long BYTES_PER_MEGABYTE = 1048576L;
 
     public void checkWorldForOldBackups(File directory) {
-        if(plugin.config.getBoolean("amountLimit")) {
-            deleteFiles(directory, dir -> dir.listFiles() != null && dir.listFiles().length > plugin.config.getInt("amountLimitMax"));
+        if(plugin.config.getBoolean("amount_limit")) {
+            deleteFiles(directory, dir -> dir.listFiles() != null && dir.listFiles().length > plugin.config.getInt("amount_limit_max"));
         }
-        if(plugin.config.getBoolean("sizeLimit")) {
-            deleteFiles(directory, dir -> getFileFolderSize(dir) > plugin.config.getInt("sizeLimitMax") * BYTES_PER_MEGABYTE);
+        if(plugin.config.getBoolean("size_limit")) {
+            deleteFiles(directory, dir -> getFileFolderSize(dir) > plugin.config.getInt("size_limit_max") * BYTES_PER_MEGABYTE);
         }
     }
 

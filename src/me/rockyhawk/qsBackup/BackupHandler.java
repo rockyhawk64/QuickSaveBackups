@@ -28,11 +28,11 @@ public class BackupHandler {
             isBackupRunning = false;
         }
         // return if auto backup is disabled
-        if (!plugin.config.getBoolean("autoBackup")) {
+        if (!plugin.config.getBoolean("auto_backup")) {
             return;
         }
         // get interval value, cannot be below 1
-        int interval = plugin.config.getInt("backupInterval");
+        int interval = plugin.config.getInt("backup_interval");
         if(interval <= 0){
             interval = 1;
         }
@@ -41,7 +41,7 @@ public class BackupHandler {
         autoBackup = new BukkitRunnable() {
             @Override
             public void run() {
-                if (autoBackupCounter >= plugin.config.getStringList("backupWorlds").size() - 1) {
+                if (autoBackupCounter >= plugin.config.getStringList("backup_worlds").size() - 1) {
                     autoBackupCounter = 0;
                 } else {
                     autoBackupCounter += 1;
@@ -49,18 +49,18 @@ public class BackupHandler {
                 List<String> backupWorlds = new ArrayList<>();
 
                 // Check for asyncBackups config value
-                if (!plugin.config.getBoolean("asyncBackup")) { // If asyncBackups is false, add all worlds to backup list
-                    backupWorlds.addAll(plugin.config.getStringList("backupWorlds"));
+                if (!plugin.config.getBoolean("async_backup")) { // If asyncBackups is false, add all worlds to backup list
+                    backupWorlds.addAll(plugin.config.getStringList("backup_worlds"));
                 } else { // If asyncBackups is true, continue with the current behavior
-                    backupWorlds.add(plugin.config.getStringList("backupWorlds").get(autoBackupCounter));
+                    backupWorlds.add(plugin.config.getStringList("backup_worlds").get(autoBackupCounter));
                 }
 
                 Bukkit.getConsoleSender().sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("saving")));
                 createNewBackup(backupWorlds);
             }
         }.runTaskTimer(plugin,
-                plugin.config.getBoolean("asyncBackup") ? intervalInTicks / plugin.config.getStringList("backupWorlds").size() : intervalInTicks,
-                plugin.config.getBoolean("asyncBackup") ? intervalInTicks / plugin.config.getStringList("backupWorlds").size() : intervalInTicks);
+                plugin.config.getBoolean("async_backup") ? intervalInTicks / plugin.config.getStringList("backup_worlds").size() : intervalInTicks,
+                plugin.config.getBoolean("async_backup") ? intervalInTicks / plugin.config.getStringList("backup_worlds").size() : intervalInTicks);
 
         isBackupRunning = true; // Set the flag to true when the backup task starts
     }
@@ -75,7 +75,7 @@ public class BackupHandler {
             new File(saveFolder.getAbsolutePath() + File.separator + worldName).mkdir();
             File worldToBackup = new File(rootServerFolder.getAbsolutePath() + File.separator + worldName);
             if (!worldToBackup.exists()) {
-                plugin.getServer().getConsoleSender().sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("noWorld")));
+                plugin.getServer().getConsoleSender().sendMessage(plugin.colorize(plugin.tag + plugin.config.getString("no_world")));
                 continue;
             }
             // Get world object from the world name
