@@ -1,9 +1,4 @@
-![](https://i.imgur.com/7o52nIx.png)
-
-# **Web Interface**
-### An optional Web Interface for streamlined backup management.
-
-![](https://i.imgur.com/BlCm64K.png)
+![](https://i.imgur.com/2FuKJgy.png)
 
 # **Console Backups**
 ### Backups made easy via the console with a world backup or a full backup.
